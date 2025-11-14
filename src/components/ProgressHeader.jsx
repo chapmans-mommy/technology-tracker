@@ -1,14 +1,11 @@
-// src/components/ProgressHeader.jsx
 import './ProgressHeader.css';
 
 function ProgressHeader({ technologies }) {
-  // Расчет статистики
   const total = technologies.length;
   const completed = technologies.filter(tech => tech.status === 'completed').length;
   const inProgress = technologies.filter(tech => tech.status === 'in-progress').length;
   const notStarted = technologies.filter(tech => tech.status === 'not-started').length;
   
-  // Расчет процента выполнения
   const progressPercent = total > 0 ? Math.round((completed / total) * 100) : 0;
 
   return (

@@ -1,4 +1,3 @@
-/* src/components/TechnologyCard.css */
 .technology-card {
     background: white;
     border-radius: 12px;
@@ -7,6 +6,7 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     border-left: 5px solid #ccc;
     transition: all 0.3s ease;
+    cursor: pointer;
   }
   
   .technology-card:hover {
@@ -15,19 +15,19 @@
   }
   
   /* Стили для разных статусов */
-  .technology-card.completed {
-    border-left-color: #4CAF50;
-    background: linear-gradient(135deg, #f8fff8 0%, #e8f5e9 100%);
+  .technology-card.not-started {
+    border-left-color: #ff6b6b;
+    background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
   }
   
   .technology-card.in-progress {
-    border-left-color: #FF9800;
+    border-left-color: #4ecdc4;
     background: linear-gradient(135deg, #fff8f1 0%, #fff3e0 100%);
   }
   
-  .technology-card.not-started {
-    border-left-color: #9E9E9E;
-    background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+  .technology-card.completed {
+    border-left-color: #45b7d1;
+    background: linear-gradient(135deg, #f8fff8 0%, #e8f5e9 100%);
   }
   
   .card-header {
@@ -50,21 +50,19 @@
     font-size: 0.8em;
     font-weight: 500;
     text-transform: uppercase;
-  }
-  
-  .status-badge.completed {
-    background: #4CAF50;
-    color: white;
-  }
-  
-  .status-badge.in-progress {
-    background: #FF9800;
     color: white;
   }
   
   .status-badge.not-started {
-    background: #9E9E9E;
-    color: white;
+    background: #ff6b6b;
+  }
+  
+  .status-badge.in-progress {
+    background: #4ecdc4;
+  }
+  
+  .status-badge.completed {
+    background: #45b7d1;
   }
   
   .card-description {
@@ -75,9 +73,16 @@
   
   .card-footer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
   }
   
   .status-icon {
     font-size: 1.2em;
+  }
+  
+  .click-hint {
+    font-size: 0.8em;
+    color: #999;
+    font-style: italic;
   }

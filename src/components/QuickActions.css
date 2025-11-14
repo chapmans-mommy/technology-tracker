@@ -1,0 +1,58 @@
+.quick-actions {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .quick-actions h3 {
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .action-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .action-btn.complete-all {
+    background: #45b7d1;
+    color: white;
+  }
+  
+  .action-btn.complete-all:hover {
+    background: #3ca5bd;
+  }
+  
+  .action-btn.reset-all {
+    background: #ff6b6b;
+    color: white;
+  }
+  
+  .action-btn.reset-all:hover {
+    background: #ff5252;
+  }
+  
+  .action-btn.random-select {
+    background: #4ecdc4;
+    color: white;
+  }
+  
+  .action-btn.random-select:hover {
+    background: #45b7af;
+  }
