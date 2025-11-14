@@ -1,84 +1,40 @@
 import { useState } from 'react';
 import './App.css';
+import useTechnologies from './hooks/useTechnologies';
 import TechnologyCard from './components/TechnologyCard';
 import ProgressHeader from './components/ProgressHeader';
 import QuickActions from './components/QuickActions';
 
 function App() {
-  // Состояние для технологий
-  const [technologies, setTechnologies] = useState([
-    {
-      id: 1,
-      title: 'React Components',
-      description: 'Изучение функциональных и классовых компонентов, работа с props и state',
-      status: 'not-started'
-    },
-    {
-      id: 2,
-      title: 'JSX Syntax',
-      description: 'Освоение синтаксиса JSX, условного рендеринга и работы со списками',
-      status: 'not-started'
-    },
-    {
-      id: 3,
-      title: 'State Management',
-      description: 'Работа с состоянием компонентов через useState и useEffect',
-      status: 'not-started'
-    },
-    {
-      id: 4,
-      title: 'React Hooks',
-      description: 'Изучение встроенных хуков и создание кастомных хуков',
-      status: 'not-started'
-    },
-    {
-      id: 5,
-      title: 'React Router',
-      description: 'Настройка маршрутизации в React-приложениях',
-      status: 'not-started'
-    }
-  ]);
-
+  const { 
+    technologies, 
+    updateStatus, 
+    updateNotes, 
+    markAllCompleted, 
+    resetAllStatuses, 
+    progress 
+  } = useTechnologies();
+  
   // Состояние для активного фильтра
   const [activeFilter, setActiveFilter] = useState('all');
-
-  // Функция для изменения статуса технологии
-  const handleStatusChange = (id, newStatus) => {
-    setTechnologies(prev => 
-      prev.map(tech => 
-        tech.id === id ? { ...tech, status: newStatus } : tech
-      )
-    );
-  };
-
-  // Функция для отметки всех как выполненных
-  const handleMarkAllCompleted = () => {
-    setTechnologies(prev => 
-      prev.map(tech => ({ ...tech, status: 'completed' }))
-    );
-  };
-
-  // Функция для сброса всех статусов
-  const handleResetAll = () => {
-    setTechnologies(prev => 
-      prev.map(tech => ({ ...tech, status: 'not-started' }))
-    );
-  };
+  
+  // Состояние для поискового запроса
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Функция для случайного выбора технологии
   const handleRandomSelect = () => {
     const notStartedTechs = technologies.filter(tech => tech.status === 'not-started');
     if (notStartedTechs.length > 0) {
       const randomTech = notStartedTechs[Math.floor(Math.random() * notStartedTechs.length)];
-      handleStatusChange(randomTech.id, 'in-progress');
+      updateStatus(randomTech.id, 'in-progress');
       alert(`Следующая технология для изучения: ${randomTech.title}`);
     } else {
       alert('Все технологии уже начаты или завершены!');
     }
   };
 
-  // Фильтрация технологий
-  const filteredTechnologies = technologies.filter(tech => {
+  // Фильтрация технологий по статусу
+  const filteredByStatus = technologies.filter(tech => {
     switch (activeFilter) {
       case 'completed':
         return tech.status === 'completed';
@@ -90,6 +46,12 @@ function App() {
         return true; // 'all'
     }
   });
+
+  // Фильтрация технологий по поисковому запросу
+  const filteredTechnologies = filteredByStatus.filter(tech =>
+    tech.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    tech.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="App">
@@ -104,10 +66,21 @@ function App() {
       {/* Быстрые действия */}
       <QuickActions
         technologies={technologies}
-        onMarkAllCompleted={handleMarkAllCompleted}
-        onResetAll={handleResetAll}
+        onMarkAllCompleted={markAllCompleted}
+        onResetAll={resetAllStatuses}
         onRandomSelect={handleRandomSelect}
       />
+
+      {/* Поиск */}
+      <div className="search-box">
+        <input
+          type="text"
+          placeholder="Поиск технологий..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <span>Найдено: {filteredTechnologies.length}</span>
+      </div>
 
       {/* Фильтры */}
       <div className="filters">
@@ -147,7 +120,8 @@ function App() {
           <TechnologyCard
             key={tech.id}
             technology={tech}
-            onStatusChange={handleStatusChange}
+            onStatusChange={updateStatus}
+            onNotesChange={updateNotes}
           />
         ))}
         {filteredTechnologies.length === 0 && (

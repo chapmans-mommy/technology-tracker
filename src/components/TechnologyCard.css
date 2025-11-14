@@ -86,3 +86,90 @@
     color: #999;
     font-style: italic;
   }
+
+/* Стили для заметок */
+.notes-section {
+    margin: 15px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 3px solid #667eea;
+  }
+  
+  .notes-section h4 {
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 0.9em;
+    font-weight: 600;
+  }
+  
+  .notes-section textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 0.9em;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 60px;
+    background: white;
+    color: #333;
+    transition: border-color 0.3s ease;
+  }
+  
+  .notes-section textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    background: white;
+  }
+  
+  .notes-section textarea::placeholder {
+    color: #999;
+  }
+  
+  .notes-hint {
+    font-size: 0.8em;
+    color: #666;
+    margin-top: 5px;
+    font-style: italic;
+  }
+  
+  /* Делаем баджи статуса кликабельными */
+  .status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  
+  .status-badge:hover {
+    transform: scale(1.05);
+  }
+  
+  .status-badge.not-started {
+    background: #ff6b6b;
+  }
+  
+  .status-badge.in-progress {
+    background: #4ecdc4;
+  }
+  
+  .status-badge.completed {
+    background: #45b7d1;
+  }
+  
+  .click-hint {
+    font-size: 0.8em;
+    color: #999;
+    font-style: italic;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  
+  .click-hint:hover {
+    color: #667eea;
+  }

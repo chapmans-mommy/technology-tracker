@@ -1,6 +1,6 @@
 import './TechnologyCard.css';
 
-function TechnologyCard({ technology, onStatusChange }) {
+function TechnologyCard({ technology, onStatusChange, onNotesChange }) {
   const handleClick = () => {
     const statusOrder = ['not-started', 'in-progress', 'completed'];
     const currentIndex = statusOrder.indexOf(technology.status);
@@ -8,6 +8,10 @@ function TechnologyCard({ technology, onStatusChange }) {
     const nextStatus = statusOrder[nextIndex];
     
     onStatusChange(technology.id, nextStatus);
+  };
+
+  const handleNotesChange = (e) => {
+    onNotesChange(technology.id, e.target.value);
   };
 
   const getStatusText = (status) => {
@@ -29,10 +33,7 @@ function TechnologyCard({ technology, onStatusChange }) {
   };
 
   return (
-    <div 
-      className={`technology-card ${technology.status}`}
-      onClick={handleClick}
-    >
+    <div className={`technology-card ${technology.status}`}>
       <div className="card-header">
         <h3 className="card-title">{technology.title}</h3>
         <span className={`status-badge ${technology.status}`}>
@@ -40,9 +41,24 @@ function TechnologyCard({ technology, onStatusChange }) {
         </span>
       </div>
       <p className="card-description">{technology.description}</p>
+      
+      {/* Секция заметок */}
+      <div className="notes-section">
+        <h4>Мои заметки:</h4>
+        <textarea
+          value={technology.notes}
+          onChange={handleNotesChange}
+          placeholder="Записывайте сюда важные моменты..."
+          rows="3"
+        />
+        <div className="notes-hint">
+          {technology.notes.length > 0 ? `Заметка сохранена (${technology.notes.length} символов)` : 'Добавьте заметку'}
+        </div>
+      </div>
+
       <div className="card-footer">
         {renderStatusIcon(technology.status)}
-        <span className="click-hint">Кликните для смены статуса</span>
+        <span className="click-hint" onClick={handleClick}>Кликните для смены статуса</span>
       </div>
     </div>
   );
