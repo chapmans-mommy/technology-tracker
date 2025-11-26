@@ -285,3 +285,9 @@ body {
   opacity: 0.9;
   transform: translateY(-1px);
 }
+
+.refresh-btn{
+  margin-top: 10px;
+  background: #8297f69a;
+  color: white; 
+}
