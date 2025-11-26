@@ -1,5 +1,5 @@
-// components/Navigation.js
 import { Link, useLocation } from 'react-router-dom';
+import './Navigation.css';
 
 function Navigation() {
     const location = useLocation();
@@ -8,7 +8,7 @@ function Navigation() {
         <nav className="main-navigation">
             <div className="nav-brand">
                 <Link to="/">
-                    <h2> 💶 Трекер технологий</h2>
+                    <h2>Трекер технологий</h2>
                 </Link>
             </div>
 
@@ -26,15 +26,23 @@ function Navigation() {
                         to="/technologies"
                         className={location.pathname === '/technologies' ? 'active' : ''}
                     >
-                        Все технологии
+                        Технологии
                     </Link>
                 </li>
                 <li>
                     <Link
-                        to="/add-technology"
-                        className={location.pathname === '/add-technology' ? 'active' : ''}
+                        to="/statistics"
+                        className={location.pathname === '/statistics' ? 'active' : ''}
                     >
-                        Добавить технологию
+                        Статистика
+                    </Link>
+                </li>
+                <li>
+                    <Link
+                        to="/settings"
+                        className={location.pathname === '/settings' ? 'active' : ''}
+                    >
+                        Настройки
                     </Link>
                 </li>
             </ul>
