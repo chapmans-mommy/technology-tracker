@@ -5,17 +5,13 @@ function useTechnologiesApi() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Загрузка технологий из API
     const fetchTechnologies = async () => {
         try {
             setLoading(true);
             setError(null);
 
-            // В реальном приложении здесь будет запрос к вашему API
-            // Сейчас имитируем загрузку с задержкой
             await new Promise(resolve => setTimeout(resolve, 1000));
 
-            // Мок данные - в реальном приложении замените на реальный API
             const mockTechnologies = [
                 {
                     id: 1,
@@ -69,7 +65,6 @@ function useTechnologiesApi() {
                 }
             ];
 
-            // Сохраняем в localStorage для совместимости с существующим кодом
             localStorage.setItem('technologies', JSON.stringify(mockTechnologies));
             setTechnologies(mockTechnologies);
 
@@ -81,14 +76,12 @@ function useTechnologiesApi() {
         }
     };
 
-    // Добавление новой технологии
     const addTechnology = async (techData) => {
         try {
-            // Имитация API запроса
             await new Promise(resolve => setTimeout(resolve, 500));
 
             const newTech = {
-                id: Date.now(), // В реальном приложении ID генерируется на сервере
+                id: Date.now(), 
                 ...techData,
                 status: 'not-started',
                 notes: '',
@@ -98,7 +91,6 @@ function useTechnologiesApi() {
             const updatedTechnologies = [...technologies, newTech];
             setTechnologies(updatedTechnologies);
             
-            // Сохраняем в localStorage для совместимости
             localStorage.setItem('technologies', JSON.stringify(updatedTechnologies));
             
             return newTech;
@@ -108,7 +100,6 @@ function useTechnologiesApi() {
         }
     };
 
-    // Обновление статуса технологии
     const updateStatus = (techId, newStatus) => {
         const updatedTechnologies = technologies.map(tech =>
             tech.id === techId ? { ...tech, status: newStatus } : tech
@@ -117,7 +108,6 @@ function useTechnologiesApi() {
         localStorage.setItem('technologies', JSON.stringify(updatedTechnologies));
     };
 
-    // Обновление заметок технологии
     const updateNotes = (techId, newNotes) => {
         const updatedTechnologies = technologies.map(tech =>
             tech.id === techId ? { ...tech, notes: newNotes } : tech
@@ -126,16 +116,30 @@ function useTechnologiesApi() {
         localStorage.setItem('technologies', JSON.stringify(updatedTechnologies));
     };
 
-    // Загружаем технологии при монтировании
+    const updateAllStatuses = (newStatus) => {
+        const updatedTechnologies = technologies.map(tech => ({
+            ...tech,
+            status: newStatus
+        }));
+        setTechnologies(updatedTechnologies);
+        localStorage.setItem('technologies', JSON.stringify(updatedTechnologies));
+    };
+
+    const markAllCompleted = () => {
+        updateAllStatuses('completed');
+    };
+
+    const resetAllStatuses = () => {
+        updateAllStatuses('not-started');
+    };
+
     useEffect(() => {
-        // Сначала проверяем localStorage для обратной совместимости
         const saved = localStorage.getItem('technologies');
         if (saved) {
             const savedTechnologies = JSON.parse(saved);
             setTechnologies(savedTechnologies);
             setLoading(false);
         } else {
-            // Если в localStorage нет данных, загружаем из API
             fetchTechnologies();
         }
     }, []);
@@ -147,7 +151,9 @@ function useTechnologiesApi() {
         refetch: fetchTechnologies,
         addTechnology,
         updateStatus,
-        updateNotes
+        updateNotes,
+        markAllCompleted,  
+        resetAllStatuses   
     };
 }
 
