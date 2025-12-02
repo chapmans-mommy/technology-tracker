@@ -1,175 +1,416 @@
+/* components/TechnologyCard.css */
 .technology-card {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    margin: 15px 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border-left: 5px solid #ccc;
-    transition: all 0.3s ease;
-    cursor: pointer;
-  }
-  
-  .technology-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  /* Стили для разных статусов */
-  .technology-card.not-started {
-    border-left-color: #ff6b6b;
-    background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
-  }
-  
-  .technology-card.in-progress {
-    border-left-color: #4ecdc4;
-    background: linear-gradient(135deg, #fff8f1 0%, #fff3e0 100%);
-  }
-  
-  .technology-card.completed {
-    border-left-color: #45b7d1;
-    background: linear-gradient(135deg, #f8fff8 0%, #e8f5e9 100%);
-  }
-  
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-  }
-  
-  .card-title {
-    margin: 0;
-    color: #333;
-    font-size: 1.3em;
-    font-weight: 600;
-  }
-  
-  .status-badge {
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.8em;
-    font-weight: 500;
-    text-transform: uppercase;
-    color: white;
-  }
-  
-  .status-badge.not-started {
-    background: #ff6b6b;
-  }
-  
-  .status-badge.in-progress {
-    background: #4ecdc4;
-  }
-  
-  .status-badge.completed {
-    background: #45b7d1;
-  }
-  
-  .card-description {
-    color: #666;
-    margin: 0 0 15px 0;
-    line-height: 1.5;
-  }
-  
-  .card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .status-icon {
-    font-size: 1.2em;
-  }
-  
-  .click-hint {
-    font-size: 0.8em;
-    color: #999;
-    font-style: italic;
-  }
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #667eea;
+  transition: transform 0.2s ease;
+  margin-bottom: 20px;
+  position: relative;
+}
 
-/* Стили для заметок */
+.technology-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.technology-card.completed {
+  border-left-color: #10b981;
+  background: linear-gradient(to right, #f0fdf4 0%, white 50%);
+}
+
+.technology-card.in-progress {
+  border-left-color: #f59e0b;
+  background: linear-gradient(to right, #fffbeb 0%, white 50%);
+}
+
+.technology-card.not-started {
+  border-left-color: #6b7280;
+  background: linear-gradient(to right, #f9fafb 0%, white 50%);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.card-title {
+  margin: 0;
+  color: #1f2937;
+  font-size: 1.25em;
+  flex: 1;
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  margin-left: 10px;
+}
+
+.status-badge.completed {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.status-badge.in-progress {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.status-badge.not-started {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.card-category {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.category-badge {
+  background-color: #e0e7ff;
+  color: #3730a3;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.85em;
+  font-weight: 500;
+}
+
+.difficulty-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.85em;
+  font-weight: 500;
+}
+
+.difficulty-beginner {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.difficulty-intermediate {
+  background-color: #fef9c3;
+  color: #854d0e;
+}
+
+.difficulty-advanced {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.card-description {
+  color: #4b5563;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-size: 0.95em;
+}
+
+.resource-preview {
+  margin-bottom: 15px;
+  padding: 8px 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.resource-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #475569;
+  font-size: 0.9em;
+}
+
 .notes-section {
-    margin: 15px 0;
-    padding: 15px;
-    background: #f8f9fa;
-    border-radius: 8px;
-    border-left: 3px solid #667eea;
+  margin-bottom: 20px;
+}
+
+.notes-section h4 {
+  margin: 0 0 8px 0;
+  color: #374151;
+  font-size: 0.95em;
+}
+
+.notes-section textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.9em;
+  resize: vertical;
+  transition: border-color 0.2s;
+  background: white;
+}
+
+.notes-section textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  background: white;
+}
+
+.notes-section textarea::placeholder {
+  color: #9ca3af;
+}
+
+.notes-hint {
+  font-size: 0.8em;
+  color: #6b7280;
+  margin-top: 6px;
+  text-align: right;
+}
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.status-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.status-btn.completed {
+  background: #10b981;
+  color: white;
+}
+
+.status-btn.in-progress {
+  background: #f59e0b;
+  color: white;
+}
+
+.status-btn.not-started {
+  background: #6b7280;
+  color: white;
+}
+
+.status-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.resources-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.resources-btn:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.card-footer {
+  text-align: center;
+  padding-top: 15px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.click-hint {
+  font-size: 0.8em;
+  color: #9ca3af;
+  cursor: pointer;
+}
+
+.click-hint:hover {
+  color: #6b7280;
+}
+
+/* Стили для модального окна ресурсов */
+.resources-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  position: relative;
+  z-index: 1001;
+  width: 100%;
+  max-width: 600px;
+  max-height: 80vh;
+  animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
   }
-  
-  .notes-section h4 {
-    margin: 0 0 10px 0;
-    color: #333;
-    font-size: 0.9em;
-    font-weight: 600;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .notes-section textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #e0e0e0;
-    border-radius: 6px;
-    font-size: 0.9em;
-    font-family: inherit;
-    resize: vertical;
-    min-height: 60px;
-    background: white;
-    color: #333;
-    transition: border-color 0.3s ease;
-  }
-  
-  .notes-section textarea:focus {
-    outline: none;
-    border-color: #667eea;
-    background: white;
-  }
-  
-  .notes-section textarea::placeholder {
-    color: #999;
-  }
-  
-  .notes-hint {
-    font-size: 0.8em;
-    color: #666;
-    margin-top: 5px;
-    font-style: italic;
-  }
-  
-  /* Делаем баджи статуса кликабельными */
-  .status-badge {
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.8em;
-    font-weight: 500;
-    text-transform: uppercase;
-    color: white;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-  }
-  
-  .status-badge:hover {
-    transform: scale(1.05);
-  }
-  
-  .status-badge.not-started {
-    background: #ff6b6b;
-  }
-  
-  .status-badge.in-progress {
-    background: #4ecdc4;
-  }
-  
-  .status-badge.completed {
-    background: #45b7d1;
-  }
-  
-  .click-hint {
-    font-size: 0.8em;
-    color: #999;
-    font-style: italic;
-    cursor: pointer;
-    transition: color 0.2s ease;
-  }
-  
-  .click-hint:hover {
-    color: #667eea;
-  }
+}
+
+/* components/TechnologyCard.css */
+
+/* ... существующие стили ... */
+
+/* Стили для API статистики */
+.api-stats {
+  margin: 15px 0;
+  padding: 12px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.stats-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+  min-width: 90px;
+  justify-content: center;
+}
+
+.stat-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.stat-icon {
+  font-size: 1.2em;
+}
+
+.stat-value {
+  font-weight: 600;
+  color: #334155;
+  font-size: 0.95em;
+}
+
+.stat-item:nth-child(1) {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border: 1px solid #fbbf24;
+}
+
+.stat-item:nth-child(2) {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border: 1px solid #34d399;
+}
+
+.stat-item:nth-child(3) {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border: 1px solid #60a5fa;
+}
+
+.stat-item:nth-child(4) {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  border: 1px solid #f87171;
+}
+
+.stat-item:nth-child(5) {
+  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+  border: 1px solid #a78bfa;
+}
+
+.api-hint {
+  display: block;
+  font-size: 0.75em;
+  color: #10b981;
+  margin-top: 5px;
+  font-weight: 500;
+}
+
+/* Стили для предпросмотра ресурсов */
+.resource-preview {
+  margin: 15px 0;
+  padding: 10px 15px;
+  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+  border-radius: 8px;
+  border: 1px solid #a5b4fc;
+  display: inline-flex;
+  align-items: center;
+}
+
+.resource-count {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #3730a3;
+  font-weight: 500;
+  font-size: 0.9em;
+}
+
+/* Обновленные стили для footer */
+.card-footer {
+  text-align: center;
+  padding-top: 15px;
+  border-top: 1px solid #f3f4f6;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.click-hint {
+  font-size: 0.8em;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.click-hint:hover {
+  color: #6b7280;
+}
