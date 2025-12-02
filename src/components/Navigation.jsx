@@ -31,6 +31,14 @@ function Navigation() {
                 </li>
                 <li>
                     <Link
+                        to="/deadlines"
+                        className={location.pathname === '/deadlines' ? 'active' : ''}
+                    >
+                        Сроки
+                    </Link>
+                </li>
+                <li>
+                    <Link
                         to="/statistics"
                         className={location.pathname === '/statistics' ? 'active' : ''}
                     >

@@ -195,6 +195,15 @@ function useTechnologiesApi() {
         localStorage.setItem('technologies', JSON.stringify(updated));
     };
 
+    const updateDeadlines = (deadlinesData) => {
+        const updatedTechnologies = technologies.map(tech => ({
+            ...tech,
+            deadline: deadlinesData[tech.id] || tech.deadline
+        }));
+        setTechnologies(updatedTechnologies);
+        localStorage.setItem('technologies', JSON.stringify(updatedTechnologies));
+    };
+
     return {
         technologies,
         loading,
@@ -204,7 +213,8 @@ function useTechnologiesApi() {
         updateStatus,
         updateNotes,
         markAllCompleted,
-        resetAllStatuses
+        resetAllStatuses,
+        updateDeadlines
     };
 }
 

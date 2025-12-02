@@ -11,6 +11,7 @@ import Settings from './pages/Settings';
 import TechnologyList from './pages/TechnologyList';
 import TechnologyDetail from './pages/TechnologyDetail';
 import RoadmapImporter from './components/RoadmapImporter';
+import SetDeadlines from './pages/SetDeadlines';
 
 function App() {
     const { 
@@ -181,6 +182,8 @@ function App() {
                     
                     {/* Страница настроек */}
                     <Route path="/settings" element={<Settings />} />
+
+                    <Route path="/deadlines" element={<SetDeadlines />} />
                 </Routes>
             </div>
         </Router>
