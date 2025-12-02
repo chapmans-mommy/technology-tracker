@@ -76,6 +76,7 @@
     border-radius: 6px;
     font-size: 0.9em;
     transition: border-color 0.3s ease;
+    background-color: white;
 }
 
 .url-input:focus {

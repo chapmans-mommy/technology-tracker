@@ -203,22 +203,25 @@ body {
 
 .stat-card {
   background: #f8f9fa;
-  padding: 20px;
+  padding: 25px 20px; /* Увеличить отступы */
   border-radius: 10px;
   text-align: center;
   border-left: 4px solid #667eea;
 }
 
 .stat-number {
-  font-size: 2.5em;
-  font-weight: bold;
+  font-size: 2em; /* Увеличить размер цифр */
+  font-weight: 300; /* Жирнее */
   color: #667eea;
   margin: 10px 0;
+  font-variant-numeric: tabular-nums; /* Все цифры одинаковой ширины */
+  letter-spacing: -0.5px; /* Уменьшить расстояние между цифрами */
 }
 
 .stat-percentage {
   color: #666;
   font-weight: 500;
+  font-size: 1.1em; /* Немного увеличить */
 }
 
 /* Стили для настроек */
