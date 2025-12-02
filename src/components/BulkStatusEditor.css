@@ -1,0 +1,439 @@
+/* components/BulkStatusEditor.css */
+.bulk-status-editor {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.editor-header {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e5e7eb;
+    position: relative;
+}
+
+.editor-header h2 {
+    margin: 0;
+    color: #1f2937;
+    font-size: 1.8em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.description {
+    margin: 10px 0 0 0;
+    color: #6b7280;
+    font-size: 1em;
+}
+
+.close-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #9ca3af;
+    padding: 8px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.close-btn:hover:not(:disabled) {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.close-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+/* Сообщения */
+.success-message {
+    margin: 20px 0;
+    padding: 15px 20px;
+    background: #d1fae5;
+    border: 1px solid #10b981;
+    border-radius: 8px;
+    color: #065f46;
+    font-weight: 500;
+    animation: slideIn 0.3s ease;
+}
+
+.error-message {
+    margin: 20px 0;
+    padding: 15px 20px;
+    background: #fef2f2;
+    border: 1px solid #ef4444;
+    border-radius: 8px;
+    color: #dc2626;
+    font-weight: 500;
+}
+
+/* Панель управления */
+.control-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+    padding: 25px;
+    background: #f9fafb;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+}
+
+.selection-controls,
+.status-controls,
+.action-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.select-all-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #374151;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.select-all-label:hover {
+    background: #f3f4f6;
+}
+
+.select-all-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.select-all-text {
+    font-size: 1em;
+}
+
+.status-label {
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 8px;
+}
+
+.status-select {
+    padding: 10px 14px;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1em;
+    color: #1f2937;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.status-select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.status-select.error {
+    border-color: #ef4444;
+    background: #fef2f2;
+}
+
+.field-error {
+    color: #ef4444;
+    font-size: 0.85em;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.apply-btn {
+    padding: 14px 24px;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 5px rgba(59, 130, 246, 0.3);
+    margin-top: auto;
+}
+
+.apply-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.4);
+}
+
+.apply-btn:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.apply-btn[aria-busy="true"]::after {
+    content: '';
+    display: inline-block;
+    margin-left: 10px;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s linear infinite;
+}
+
+/* Сетка технологий */
+.technologies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.technology-card {
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.technology-card:hover {
+    border-color: #d1d5db;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.technology-card.selected {
+    border-color: #3b82f6;
+    background: #f0f9ff;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.card-header input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.tech-title {
+    margin: 0;
+    color: #1f2937;
+    font-size: 1.2em;
+    font-weight: 600;
+    flex: 1;
+}
+
+.card-body {
+    margin-left: 35px;
+}
+
+.tech-description {
+    color: #6b7280;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    font-size: 0.95em;
+}
+
+.tech-meta {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.current-status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 500;
+}
+
+.tech-category {
+    padding: 4px 12px;
+    background: #e0e7ff;
+    color: #3730a3;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 500;
+}
+
+.tech-deadline {
+    color: #8b5cf6;
+    font-size: 0.85em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.selection-indicator {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #3b82f6;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 500;
+    animation: pulse 2s infinite;
+}
+
+/* Панель подсказок */
+.accessibility-hints {
+    background: #fefce8;
+    border: 1px solid #fbbf24;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 30px 0;
+}
+
+.accessibility-hints h4 {
+    margin: 0 0 15px 0;
+    color: #92400e;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.accessibility-hints ul {
+    margin: 0;
+    padding-left: 20px;
+    color: #92400e;
+}
+
+.accessibility-hints li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.accessibility-hints kbd {
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-family: monospace;
+    font-size: 0.9em;
+}
+
+/* Панель статистики */
+.stats-panel {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    background: #f9fafb;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 30px;
+    border: 1px solid #e5e7eb;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-label {
+    display: block;
+    color: #6b7280;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    display: block;
+    color: #1f2937;
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+/* Анимации */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Состояния для скринридера */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+    .control-panel {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .technologies-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .bulk-status-editor {
+        padding: 20px;
+    }
+    
+    .technologies-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-panel {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}

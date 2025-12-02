@@ -1,4 +1,3 @@
-// pages/TechnologyDetail.js  
 import { useParams, Link, useNavigate } from 'react-router-dom';  
 import { useState, useEffect } from 'react';
 
@@ -7,13 +6,29 @@ function TechnologyDetail() {
     const navigate = useNavigate();
     const [technology, setTechnology] = useState(null);
 
-    useEffect(() => {
+    const loadTechnology = () => {
         const saved = localStorage.getItem('technologies');
         if (saved) {
             const technologies = JSON.parse(saved);
             const tech = technologies.find(t => t.id === parseInt(techId));
             setTechnology(tech);
         }
+    };
+
+    useEffect(() => {
+        loadTechnology();
+
+        const handleStorageChange = (e) => {
+            if (e.key === 'technologies') {
+                loadTechnology();
+            }
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+        
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
     }, [techId]);
 
     const updateStatus = (newStatus) => {

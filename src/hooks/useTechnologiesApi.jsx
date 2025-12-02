@@ -1,220 +1,221 @@
-// hooks/useTechnologiesApi.jsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
-// Начальные данные
 const initialTechnologies = [
-  {
-    id: 1,
-    title: "React",
-    description: "Библиотека JavaScript для создания пользовательских интерфейсов",
-    category: "frontend",
-    difficulty: "intermediate",
-    documentationUrl: "https://react.dev",
-    status: "not-started",
-    notes: "",
-    resources: ["https://react.dev", "https://ru.reactjs.org"]
-  },
-  {
-    id: 2,
-    title: "Node.js",
-    description: "Среда выполнения JavaScript на сервере",
-    category: "backend",
-    difficulty: "intermediate",
-    documentationUrl: "https://nodejs.org",
-    status: "not-started",
-    notes: "",
-    resources: ["https://nodejs.org", "https://nodejs.org/ru/docs/"]
-  },
-  {
-    id: 3,
-    title: "TypeScript",
-    description: "Типизированное надмножество JavaScript",
-    category: "language",
-    difficulty: "intermediate",
-    documentationUrl: "https://www.typescriptlang.org",
-    status: "not-started",
-    notes: "",
-    resources: ["https://www.typescriptlang.org"]
-  }
+    {
+        id: 1,
+        title: 'React Components',
+        description: 'Изучение функциональных и классовых компонентов, работа с props и state',
+        status: 'not-started',
+        notes: '',
+        category: 'frontend'
+    },
+    {
+        id: 2,
+        title: 'JSX Syntax',
+        description: 'Освоение синтаксиса JSX, условного рендеринга и работы со списками',
+        status: 'not-started',
+        notes: '',
+        category: 'frontend'
+    },
+    {
+        id: 3,
+        title: 'State Management',
+        description: 'Работа с состоянием компонентов через useState и useEffect',
+        status: 'not-started',
+        notes: '',
+        category: 'frontend'
+    },
+    {
+        id: 4,
+        title: 'React Hooks',
+        description: 'Изучение встроенных хуков и создание кастомных хуков',
+        status: 'not-started',
+        notes: '',
+        category: 'frontend'
+    },
+    {
+        id: 5,
+        title: 'React Router',
+        description: 'Настройка маршрутизации в React-приложениях',
+        status: 'not-started',
+        notes: '',
+        category: 'frontend'
+    }
 ];
 
+let globalTechnologies = {
+    data: [],
+    listeners: new Set(),
+    
+    setData(newData) {
+        this.data = newData;
+        localStorage.setItem('technologies', JSON.stringify(newData));
+        this.notifyListeners();
+    },
+    
+    subscribe(listener) {
+        this.listeners.add(listener);
+        return () => this.listeners.delete(listener);
+    },
+    
+    notifyListeners() {
+        this.listeners.forEach(listener => listener(this.data));
+    }
+};
+
 function useTechnologiesApi() {
-    const [technologies, setTechnologies] = useState([]);
+    const [technologies, setTechnologies] = useState(globalTechnologies.data);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Функция для получения данных из GitHub API
-    const fetchGitHubData = async (techName) => {
-        const techToRepo = {
-            'React': 'facebook/react',
-            'Node.js': 'nodejs/node',
-            'TypeScript': 'microsoft/TypeScript',
-            'JavaScript': 'tc39/ecma262',
-            'Python': 'python/cpython',
-            'Docker': 'docker/docker-ce'
-        };
-        
-        const repoPath = techToRepo[techName];
-        if (!repoPath) return null;
-
-        try {
-            const response = await fetch(`https://api.github.com/repos/${repoPath}`, {
-                headers: {
-                    'Accept': 'application/vnd.github.v3+json'
-                }
-            });
-
-            if (!response.ok) return null;
-            return await response.json();
-        } catch (err) {
-            console.warn(`GitHub API error for ${techName}:`, err.message);
-            return null;
-        }
-    };
-
-    // Основная функция загрузки
-    const fetchTechnologies = async () => {
-        try {
-            setLoading(true);
-            setError(null);
-
-            // Пробуем загрузить из localStorage
-            const saved = localStorage.getItem('technologies');
-            let baseTechnologies = saved ? JSON.parse(saved) : initialTechnologies;
-
-            // Обогащаем данными из GitHub API
-            const enhancedTechnologies = await Promise.all(
-                baseTechnologies.map(async (tech) => {
-                    const githubData = await fetchGitHubData(tech.title);
-                    
-                    return {
-                        ...tech,
-                        apiData: {
-                            github: githubData
-                        },
-                        stats: {
-                            stars: githubData?.stargazers_count || 0,
-                            forks: githubData?.forks_count || 0,
-                            watchers: githubData?.watchers_count || 0,
-                            openIssues: githubData?.open_issues_count || 0,
-                            stackOverflowQuestions: 0
-                        },
-                        resources: tech.resources || [
-                            tech.documentationUrl || `https://${tech.title.toLowerCase()}.org`,
-                            `https://github.com/search?q=${encodeURIComponent(tech.title)}`,
-                            `https://stackoverflow.com/questions/tagged/${tech.title.toLowerCase()}`
-                        ]
-                    };
-                })
-            );
-
-            setTechnologies(enhancedTechnologies);
-
-        } catch (err) {
-            console.error('Ошибка загрузки:', err);
-            
-            // Fallback на простые данные
-            const saved = localStorage.getItem('technologies');
-            if (saved) {
-                setTechnologies(JSON.parse(saved));
-            } else {
-                setTechnologies(initialTechnologies);
-            }
-            
-            setError('Используются локальные данные');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    // Добавление новой технологии
-    const addTechnology = async (techData) => {
-        try {
-            const newTech = {
-                id: Date.now(),
-                ...techData,
-                status: 'not-started',
-                notes: '',
-                createdAt: new Date().toISOString(),
-                stats: {
-                    stars: 0,
-                    forks: 0,
-                    watchers: 0,
-                    openIssues: 0,
-                    stackOverflowQuestions: 0
-                },
-                resources: [
-                    `https://github.com/search?q=${encodeURIComponent(techData.title)}`,
-                    `https://stackoverflow.com/questions/tagged/${techData.title.toLowerCase()}`,
-                    `https://www.google.com/search?q=${encodeURIComponent(techData.title + ' документация')}`
-                ]
-            };
-
-            const updatedTechnologies = [...technologies, newTech];
-            setTechnologies(updatedTechnologies);
-            localStorage.setItem('technologies', JSON.stringify(updatedTechnologies));
-            
-            return newTech;
-
-        } catch (err) {
-            throw new Error(`Не удалось добавить технологию: ${err.message}`);
-        }
-    };
-
-    // Загружаем при монтировании
     useEffect(() => {
-        fetchTechnologies();
+        const loadTechnologies = () => {
+            try {
+                setLoading(true);
+                const saved = localStorage.getItem('technologies');
+                
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    setTechnologies(parsed);
+                    globalTechnologies.data = parsed;
+                } else {
+                    setTechnologies(initialTechnologies);
+                    globalTechnologies.data = initialTechnologies;
+                    localStorage.setItem('technologies', JSON.stringify(initialTechnologies));
+                }
+                
+                setError(null);
+            } catch (err) {
+                console.error('Ошибка загрузки технологий:', err);
+                setError('Не удалось загрузить технологии');
+                setTechnologies(initialTechnologies);
+                globalTechnologies.data = initialTechnologies;
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadTechnologies();
+
+        const unsubscribe = globalTechnologies.subscribe((newData) => {
+            setTechnologies(newData);
+        });
+
+        const handleStorageChange = (e) => {
+            if (e.key === 'technologies') {
+                try {
+                    if (e.newValue) {
+                        const parsed = JSON.parse(e.newValue);
+                        setTechnologies(parsed);
+                        globalTechnologies.data = parsed;
+                    }
+                } catch (err) {
+                    console.error('Ошибка синхронизации:', err);
+                }
+            }
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+        
+        return () => {
+            unsubscribe();
+            window.removeEventListener('storage', handleStorageChange);
+        };
     }, []);
 
-    // Остальные функции остаются как были
-    const updateStatus = (techId, newStatus) => {
+    const updateStatus = useCallback((techId, newStatus) => {
         const updated = technologies.map(tech =>
             tech.id === techId ? { ...tech, status: newStatus } : tech
         );
+        
         setTechnologies(updated);
-        localStorage.setItem('technologies', JSON.stringify(updated));
-    };
+        globalTechnologies.setData(updated);
+    }, [technologies]);
 
-    const updateNotes = (techId, newNotes) => {
+    const bulkUpdateStatuses = useCallback((updates) => {
+        const updated = technologies.map(tech => {
+            const update = updates.find(u => u.id === tech.id);
+            return update ? { ...tech, status: update.status } : tech;
+        });
+        
+        setTechnologies(updated);
+        globalTechnologies.setData(updated);
+    }, [technologies]);
+
+    const updateNotes = useCallback((techId, newNotes) => {
         const updated = technologies.map(tech =>
             tech.id === techId ? { ...tech, notes: newNotes } : tech
         );
+        
         setTechnologies(updated);
-        localStorage.setItem('technologies', JSON.stringify(updated));
-    };
+        globalTechnologies.setData(updated);
+    }, [technologies]);
 
-    const markAllCompleted = () => {
+    const addTechnology = useCallback((techData) => {
+        const newTech = {
+            id: Date.now(),
+            ...techData,
+            status: 'not-started',
+            notes: '',
+            createdAt: new Date().toISOString()
+        };
+        
+        const updated = [...technologies, newTech];
+        setTechnologies(updated);
+        globalTechnologies.setData(updated);
+        
+        return newTech;
+    }, [technologies]);
+
+    const markAllCompleted = useCallback(() => {
         const updated = technologies.map(tech => ({ ...tech, status: 'completed' }));
         setTechnologies(updated);
-        localStorage.setItem('technologies', JSON.stringify(updated));
-    };
+        globalTechnologies.setData(updated);
+    }, [technologies]);
 
-    const resetAllStatuses = () => {
+    const resetAllStatuses = useCallback(() => {
         const updated = technologies.map(tech => ({ ...tech, status: 'not-started' }));
         setTechnologies(updated);
-        localStorage.setItem('technologies', JSON.stringify(updated));
-    };
+        globalTechnologies.setData(updated);
+    }, [technologies]);
 
-    const updateDeadlines = (deadlinesData) => {
-        const updatedTechnologies = technologies.map(tech => ({
-            ...tech,
-            deadline: deadlinesData[tech.id] || tech.deadline
-        }));
-        setTechnologies(updatedTechnologies);
-        localStorage.setItem('technologies', JSON.stringify(updatedTechnologies));
-    };
+    const refetch = useCallback(() => {
+        setLoading(true);
+        try {
+            const saved = localStorage.getItem('technologies');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                setTechnologies(parsed);
+                globalTechnologies.data = parsed;
+            }
+            setError(null);
+        } catch (err) {
+            setError('Ошибка загрузки данных');
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+    const updateDeadline = useCallback((techId, deadline) => {
+        const updated = technologies.map(tech =>
+            tech.id === techId ? { ...tech, deadline } : tech
+        );
+        
+        setTechnologies(updated);
+        globalTechnologies.setData(updated);
+    }, [technologies]);
 
     return {
         technologies,
         loading,
         error,
-        refetch: fetchTechnologies,
-        addTechnology,
+        refetch,
         updateStatus,
+        bulkUpdateStatuses,
         updateNotes,
+        addTechnology,
         markAllCompleted,
         resetAllStatuses,
-        updateDeadlines
+        updateDeadline,
     };
 }
 

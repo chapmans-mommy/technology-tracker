@@ -1,16 +1,30 @@
-// pages/TechnologyList.js  
 import { Link } from 'react-router-dom';  
 import { useState, useEffect } from 'react';
 
 function TechnologyList() {
     const [technologies, setTechnologies] = useState([]);
 
-    // Загружаем технологии из localStorage  
-    useEffect(() => {
+    const loadTechnologies = () => {
         const saved = localStorage.getItem('technologies');  
         if (saved) {
             setTechnologies(JSON.parse(saved));
         }
+    };
+
+    useEffect(() => {
+        loadTechnologies();
+
+        const handleStorageChange = (e) => {
+            if (e.key === 'technologies') {
+                loadTechnologies();
+            }
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+        
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
     }, []);
 
     return (

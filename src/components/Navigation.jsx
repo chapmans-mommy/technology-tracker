@@ -31,6 +31,14 @@ function Navigation() {
                 </li>
                 <li>
                     <Link
+                        to="/bulk-edit"
+                        className={location.pathname === '/bulk-edit' ? 'active' : ''}
+                    >
+                        Редактирование
+                    </Link>
+                </li>
+                <li>
+                    <Link
                         to="/deadlines"
                         className={location.pathname === '/deadlines' ? 'active' : ''}
                     >

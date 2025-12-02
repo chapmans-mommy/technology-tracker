@@ -1,4 +1,3 @@
-// pages/Statistics.js
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -11,13 +10,12 @@ function Statistics() {
         completed: 0
     });
 
-    useEffect(() => {
+    const loadTechnologies = () => {
         const saved = localStorage.getItem('technologies');
         if (saved) {
             const techData = JSON.parse(saved);
             setTechnologies(techData);
             
-            // Расчет статистики
             const total = techData.length;
             const notStarted = techData.filter(tech => tech.status === 'not-started').length;
             const inProgress = techData.filter(tech => tech.status === 'in-progress').length;
@@ -30,6 +28,22 @@ function Statistics() {
                 completed
             });
         }
+    };
+
+    useEffect(() => {
+        loadTechnologies();
+
+        const handleStorageChange = (e) => {
+            if (e.key === 'technologies') {
+                loadTechnologies();
+            }
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+        
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
     }, []);
 
     const calculatePercentage = (count) => {
@@ -46,7 +60,6 @@ function Statistics() {
             </div>
 
             <div className="stats-container">
-                {/* Общая статистика */}
                 <div className="stats-overview">
                     <div className="stat-card">
                         <h3>Всего технологий</h3>
@@ -69,7 +82,6 @@ function Statistics() {
                     </div>
                 </div>
 
-                {/* График прогресса */}
                 <div className="progress-chart">
                     <h3>Прогресс изучения</h3>
                     <div className="chart-bar">
@@ -111,7 +123,6 @@ function Statistics() {
                     </div>
                 </div>
 
-                {/* Детализация по технологиям */}
                 <div className="technologies-detail">
                     <h3>Детализация по технологиям</h3>
                     {technologies.length > 0 ? (

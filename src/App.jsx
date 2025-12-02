@@ -1,5 +1,5 @@
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import useTechnologiesApi from './hooks/useTechnologiesApi'; 
 import TechnologyCard from './components/TechnologyCard';
@@ -11,6 +11,7 @@ import Settings from './pages/Settings';
 import TechnologyList from './pages/TechnologyList';
 import TechnologyDetail from './pages/TechnologyDetail';
 import RoadmapImporter from './components/RoadmapImporter';
+import BulkEditPage from './pages/BulkEditPage';
 import SetDeadlines from './pages/SetDeadlines';
 
 function App() {
@@ -28,8 +29,22 @@ function App() {
     
     const [activeFilter, setActiveFilter] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
+    const [forceUpdate, setForceUpdate] = useState(0);
 
-  
+    useEffect(() => {
+        const handleStorageChange = (e) => {
+            if (e.key === 'technologies') {
+                setForceUpdate(prev => prev + 1);
+            }
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+        
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
+    }, []);
+
     const handleImportTechnologies = (importedTechs) => {
         importedTechs.forEach(tech => {
             addTechnology(tech);
@@ -76,23 +91,20 @@ function App() {
 
     return (
         <Router>
-            <div className="App">
+            <div className="App" key={forceUpdate}>
                 <Navigation />
                 
                 <Routes>
-                    {/* Главная страница */}
                     <Route path="/" element={
                         <>
                             <header className="app-header">
                                 <h1>Трекер изучения технологий</h1>
                                 <p>Отслеживайте ваш прогресс в изучении современных технологий</p>
-                                {/* Добавляем кнопку обновления согласно ТЗ */}
                                 <button onClick={refetch} className="refresh-btn">
                                     Обновить
                                 </button>
                             </header>
 
-                            {/* Добавляем обработку ошибок согласно ТЗ */}
                             {error && (
                                 <div className="app-error">
                                     <p>❌ {error}</p>
@@ -102,7 +114,6 @@ function App() {
 
                             <ProgressHeader technologies={technologies} />
 
-                            {/* Добавляем компонент импорта дорожных карт согласно ТЗ */}
                             <RoadmapImporter onImport={handleImportTechnologies} />
 
                             <QuickActions
@@ -171,17 +182,15 @@ function App() {
                         </>
                     } />
 
-                    {/* Страница всех технологий */}
                     <Route path="/technologies" element={<TechnologyList />} />
                     
-                    {/* Страница деталей технологии */}
                     <Route path="/technology/:techId" element={<TechnologyDetail />} />
                     
-                    {/* Страница статистики */}
                     <Route path="/statistics" element={<Statistics />} />
                     
-                    {/* Страница настроек */}
                     <Route path="/settings" element={<Settings />} />
+
+                    <Route path="/bulk-edit" element={<BulkEditPage />} />
 
                     <Route path="/deadlines" element={<SetDeadlines />} />
                 </Routes>
