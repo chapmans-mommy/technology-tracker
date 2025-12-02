@@ -1,41 +1,240 @@
+/* components/Navigation.css */
 .main-navigation {
     background: white;
-    padding: 0 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 0 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
+    justify-content: space-between;
+    position: relative;
+    min-height: 70px;
+}
+
+.nav-brand {
+    flex-shrink: 0;
+    margin-right: 30px;
+    text-align: center;
+}
+
+.nav-brand a {
+    text-decoration: none;
+    color: #1f2937;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .nav-brand h2 {
     margin: 0;
-    color: #667eea;
+    font-size: 1.4rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    white-space: nowrap;
+}
+
+.nav-scroll-container {
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f1f5f9;
+    padding: 10px 0;
+    margin: 0 15px;
+    position: relative;
+}
+
+/* Скрываем стандартный скроллбар для WebKit */
+.nav-scroll-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+.nav-scroll-container::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 3px;
+}
+
+.nav-scroll-container::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+.nav-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
 }
 
 .nav-menu {
     display: flex;
+    gap: 2px;
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: 20px;
+    min-width: max-content;
+}
+
+.nav-menu li {
+    flex-shrink: 0;
 }
 
 .nav-menu a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px;
     text-decoration: none;
-    color: #333;
-    padding: 15px 20px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
+    color: #4b5563;
     font-weight: 500;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    position: relative;
+    border: 1px solid transparent;
 }
 
 .nav-menu a:hover {
-    background: #f8f9fa;
-    color: #667eea;
+    background: #f3f4f6;
+    color: #1f2937;
+    transform: translateY(-1px);
 }
 
 .nav-menu a.active {
-    background: #667eea;
+    background: #3b82f6;
     color: white;
+    box-shadow: 0 2px 5px rgba(59, 130, 246, 0.3);
+}
+
+.nav-menu a.active:hover {
+    background: #2563eb;
+}
+
+/* Индикатор прокрутки */
+.scroll-indicator {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.scroll-indicator.left {
+    left: 0;
+    background: linear-gradient(to right, white, transparent);
+}
+
+.scroll-indicator.right {
+    right: 0;
+    background: linear-gradient(to left, white, transparent);
+}
+
+.scroll-indicator.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.scroll-btn {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+    pointer-events: auto;
+}
+
+.scroll-btn:hover {
+    background: #f9fafb;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: scale(1.1);
+}
+
+.scroll-btn:active {
+    transform: scale(0.95);
+}
+
+.scroll-btn svg {
+    width: 16px;
+    height: 16px;
+    color: #6b7280;
+}
+
+/* Иконки для пунктов меню */
+.nav-menu a::before {
+    font-size: 1.1em;
+}
+
+
+
+/* Мобильная версия */
+@media (max-width: 768px) {
+    .main-navigation {
+        padding: 0 10px;
+    }
+    
+    .nav-container {
+        min-height: 60px;
+    }
+    
+    .nav-brand h2 {
+        font-size: 1.2rem;
+    }
+    
+    .nav-scroll-container {
+        margin: 0 10px;
+    }
+    
+    .nav-menu a {
+        padding: 10px 14px;
+        font-size: 0.9rem;
+    }
+    
+    .scroll-btn {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-brand {
+        display: none;
+    }
+    
+    .nav-scroll-container {
+        margin: 0 5px;
+    }
+    
+    .nav-menu a {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+    
+    .nav-menu a::before {
+        margin-right: 0;
+    }
+    
+    .nav-menu span {
+        display: none;
+    }
 }

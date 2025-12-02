@@ -291,3 +291,48 @@ body {
   background: #8297f69a;
   color: white; 
 }
+
+/* В конец App.css добавить: */
+
+/* Стили для скроллбара навигации (глобальные) */
+.nav-scroll-container {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.nav-scroll-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.nav-scroll-container::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.nav-scroll-container::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.nav-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Для лучшей видимости скролла на темном фоне */
+@media (prefers-color-scheme: dark) {
+  .nav-scroll-container {
+      scrollbar-color: #4b5563 #374151;
+  }
+  
+  .nav-scroll-container::-webkit-scrollbar-track {
+      background: #374151;
+  }
+  
+  .nav-scroll-container::-webkit-scrollbar-thumb {
+      background: #4b5563;
+  }
+  
+  .nav-scroll-container::-webkit-scrollbar-thumb:hover {
+      background: #6b7280;
+  }
+}
