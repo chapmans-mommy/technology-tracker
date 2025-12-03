@@ -13,6 +13,7 @@ import TechnologyDetail from './pages/TechnologyDetail';
 import RoadmapImporter from './components/RoadmapImporter';
 import BulkEditPage from './pages/BulkEditPage';
 import SetDeadlines from './pages/SetDeadlines';
+import AddTechnology from './components/AddTechnology';
 
 function App() {
     const { 
@@ -49,6 +50,17 @@ function App() {
         importedTechs.forEach(tech => {
             addTechnology(tech);
         });
+    };
+
+    const handleAddTechnology = (newTech) => {
+        console.log('Добавляем технологию:', newTech);
+        
+        // Используем функцию addTechnology из хука useTechnologiesApi
+        const result = addTechnology(newTech);
+        console.log('Результат добавления:', result);
+        
+        // Обновляем интерфейс
+        setForceUpdate(prev => prev + 1);
     };
 
     const handleRandomSelect = () => {
@@ -113,6 +125,9 @@ function App() {
                             )}
 
                             <ProgressHeader technologies={technologies} />
+
+                            {/* Компонент для добавления новых технологий */}
+                            <AddTechnology onAddTechnology={handleAddTechnology} />
 
                             <RoadmapImporter onImport={handleImportTechnologies} />
 
@@ -182,6 +197,16 @@ function App() {
                         </>
                     } />
 
+                    {/* ДОБАВЛЕНО: Роут для /add-technology */}
+                    <Route path="/add-technology" element={
+                        <div className="page">
+                            <div className="page-header">
+                                <h1>Добавление новой технологии</h1>
+                            </div>
+                            <AddTechnology onAddTechnology={handleAddTechnology} />
+                        </div>
+                    } />
+
                     <Route path="/technologies" element={<TechnologyList />} />
                     
                     <Route path="/technology/:techId" element={<TechnologyDetail />} />
@@ -193,6 +218,25 @@ function App() {
                     <Route path="/bulk-edit" element={<BulkEditPage />} />
 
                     <Route path="/deadlines" element={<SetDeadlines />} />
+
+                    {/* ДОБАВЛЕНО: Роут для 404 ошибок */}
+                    <Route path="*" element={
+                        <div className="page">
+                            <div className="page-header">
+                                <h1>404 - Страница не найдена</h1>
+                            </div>
+                            <div style={{ textAlign: 'center', padding: '50px' }}>
+                                <p>Страница, которую вы ищете, не существует.</p>
+                                <a href="/" style={{ 
+                                    color: '#6366f1', 
+                                    textDecoration: 'underline',
+                                    fontSize: '1.1em'
+                                }}>
+                                    Вернуться на главную
+                                </a>
+                            </div>
+                        </div>
+                    } />
                 </Routes>
             </div>
         </Router>
