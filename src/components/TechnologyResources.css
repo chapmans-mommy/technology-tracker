@@ -197,3 +197,47 @@
     color: #95a5a6;
     font-size: 0.9em;
 }
+
+/* Для компонента TechnologyResources, если он есть отдельно */
+body.dark-theme .technology-resources {
+    background: #2d2d2d !important;
+    color: #ffffff !important;
+}
+
+body.dark-theme .technology-resources h3 {
+    color: #ffffff !important;
+}
+
+body.dark-theme .technology-resources .resource-link {
+    color: #93c5fd !important;
+    text-decoration: none !important;
+}
+
+body.dark-theme .technology-resources .resource-link:hover {
+    color: #60a5fa !important;
+    text-decoration: underline !important;
+}
+
+body.dark-theme .technology-resources .resource-type {
+    color: #ffffff !important;
+    background: #4d4d4d !important;
+}
+
+/* Убедимся, что все тексты видны */
+body.dark-theme .modal-content *:not(.status-icon):not(.close-btn) {
+    color: #ffffff !important;
+}
+
+/* Контрастные цвета для ссылок */
+body.dark-theme a {
+    color: #93c5fd !important;
+}
+
+body.dark-theme a:hover {
+    color: #60a5fa !important;
+}
+
+/* Для всего текста внутри ресурсов */
+body.dark-theme .resource-description {
+    color: #cccccc !important;
+}

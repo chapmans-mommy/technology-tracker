@@ -412,3 +412,281 @@
 .click-hint:hover {
   color: #6b7280;
 }
+
+/* В конец файла TechnologyCard.css добавь: */
+
+/* ===== ТЕМНАЯ ТЕМА ДЛЯ КАРТОЧЕК ===== */
+body.dark-theme .technology-card {
+  background: #2d2d2d !important;
+  border: 1px solid #404040 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .technology-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+  border-color: #6366f1 !important;
+}
+
+body.dark-theme .card-header {
+  border-bottom-color: #404040 !important;
+}
+
+body.dark-theme .card-title {
+  color: #ffffff !important;
+}
+
+body.dark-theme .status-badge {
+  background: #3d3d3d !important;
+  color: #ffffff !important;
+  border: 1px solid #505050 !important;
+}
+
+body.dark-theme .status-badge.completed {
+  background: #059669 !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .status-badge.in-progress {
+  background: #d97706 !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .status-badge.not-started {
+  background: #6b7280 !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .card-category {
+  border-bottom-color: #404040 !important;
+}
+
+body.dark-theme .category-badge {
+  background: #3d3d3d !important;
+  color: #ffffff !important;
+  border: 1px solid #505050 !important;
+}
+
+body.dark-theme .difficulty-badge {
+  background: #3d3d3d !important;
+  color: #ffffff !important;
+  border: 1px solid #505050 !important;
+}
+
+body.dark-theme .difficulty-badge.difficulty-beginner {
+  background: #059669 !important;
+}
+
+body.dark-theme .difficulty-badge.difficulty-intermediate {
+  background: #d97706 !important;
+}
+
+body.dark-theme .difficulty-badge.difficulty-advanced {
+  background: #dc2626 !important;
+}
+
+body.dark-theme .card-description {
+  color: #cccccc !important;
+}
+
+body.dark-theme .resource-preview {
+  border-top-color: #404040 !important;
+}
+
+body.dark-theme .resource-count {
+  color: #cccccc !important;
+}
+
+body.dark-theme .notes-section {
+  border-top-color: #404040 !important;
+}
+
+body.dark-theme .notes-section h4 {
+  color: #ffffff !important;
+}
+
+body.dark-theme .notes-section textarea {
+  background: #3d3d3d !important;
+  color: #ffffff !important;
+  border: 1px solid #505050 !important;
+}
+
+body.dark-theme .notes-section textarea::placeholder {
+  color: #888888 !important;
+}
+
+body.dark-theme .notes-hint {
+  color: #888888 !important;
+}
+
+body.dark-theme .card-actions {
+  border-top-color: #404040 !important;
+}
+
+body.dark-theme .status-btn,
+body.dark-theme .resources-btn {
+  background: #3d3d3d !important;
+  color: #ffffff !important;
+  border: 1px solid #505050 !important;
+}
+
+body.dark-theme .status-btn:hover,
+body.dark-theme .resources-btn:hover {
+  background: #4d4d4d !important;
+  border-color: #6366f1 !important;
+}
+
+body.dark-theme .status-btn.completed {
+  background: #059669 !important;
+  border-color: #059669 !important;
+}
+
+body.dark-theme .status-btn.in-progress {
+  background: #d97706 !important;
+  border-color: #d97706 !important;
+}
+
+body.dark-theme .status-btn.not-started {
+  background: #6b7280 !important;
+  border-color: #6b7280 !important;
+}
+
+body.dark-theme .card-footer {
+  border-top-color: #404040 !important;
+}
+
+body.dark-theme .click-hint {
+  color: #888888 !important;
+}
+
+/* Модальное окно ресурсов */
+body.dark-theme .resources-modal {
+  background: rgba(0, 0, 0, 0.8) !important;
+}
+
+body.dark-theme .modal-overlay {
+  background: rgba(0, 0, 0, 0.6) !important;
+}
+
+body.dark-theme .modal-content {
+  background: #2d2d2d !important;
+  border: 1px solid #404040 !important;
+  color: #ffffff !important;
+}
+
+/* ===== ТЕМНАЯ ТЕМА ДЛЯ РЕСУРСОВ ===== */
+body.dark-theme .resources-modal .modal-content {
+  background: #2d2d2d !important;
+  border: 1px solid #404040 !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .resources-modal .modal-header {
+  border-bottom-color: #404040 !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .resources-modal .modal-title {
+  color: #ffffff !important;
+}
+
+body.dark-theme .resources-modal .close-btn {
+  color: #ffffff !important;
+  background: #3d3d3d !important;
+  border: 1px solid #505050 !important;
+}
+
+body.dark-theme .resources-modal .close-btn:hover {
+  background: #4d4d4d !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .resources-modal .resources-list {
+  background: #2d2d2d !important;
+}
+
+body.dark-theme .resources-modal .resource-item {
+  background: #3d3d3d !important;
+  border: 1px solid #505050 !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .resources-modal .resource-item:hover {
+  background: #4d4d4d !important;
+  border-color: #6366f1 !important;
+}
+
+body.dark-theme .resources-modal .resource-title {
+  color: #ffffff !important;
+}
+
+body.dark-theme .resources-modal .resource-type {
+  background: #4d4d4d !important;
+  color: #ffffff !important;
+  border: 1px solid #505050 !important;
+}
+
+body.dark-theme .resources-modal .resource-type.article {
+  background: #059669 !important;
+}
+
+body.dark-theme .resources-modal .resource-type.video {
+  background: #3b82f6 !important;
+}
+
+body.dark-theme .resources-modal .resource-type.course {
+  background: #8b5cf6 !important;
+}
+
+body.dark-theme .resources-modal .resource-type.documentation {
+  background: #d97706 !important;
+}
+
+body.dark-theme .resources-modal .resource-url {
+  color: #93c5fd !important;
+}
+
+body.dark-theme .resources-modal .resource-url:hover {
+  color: #60a5fa !important;
+}
+
+body.dark-theme .resources-modal .add-resource-form {
+  background: #3d3d3d !important;
+  border: 1px solid #505050 !important;
+}
+
+body.dark-theme .resources-modal .add-resource-form input,
+body.dark-theme .resources-modal .add-resource-form select,
+body.dark-theme .resources-modal .add-resource-form textarea {
+  background: #4d4d4d !important;
+  color: #ffffff !important;
+  border: 1px solid #505050 !important;
+}
+
+body.dark-theme .resources-modal .add-resource-form input::placeholder,
+body.dark-theme .resources-modal .add-resource-form textarea::placeholder {
+  color: #888888 !important;
+}
+
+body.dark-theme .resources-modal .add-resource-form label {
+  color: #ffffff !important;
+}
+
+body.dark-theme .resources-modal .form-actions button {
+  background: #3d3d3d !important;
+  color: #ffffff !important;
+  border: 1px solid #505050 !important;
+}
+
+body.dark-theme .resources-modal .form-actions button[type="submit"] {
+  background: #6366f1 !important;
+  border-color: #6366f1 !important;
+}
+
+body.dark-theme .resources-modal .form-actions button:hover {
+  background: #4d4d4d !important;
+}
+
+body.dark-theme .resources-modal .form-actions button[type="submit"]:hover {
+  background: #4f46e5 !important;
+}

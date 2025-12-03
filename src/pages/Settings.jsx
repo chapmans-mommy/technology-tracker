@@ -1,17 +1,43 @@
-// pages/Settings.js
-import { useState, useEffect } from 'react';
+// pages/Settings.jsx
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import {
+    Box,
+    Card,
+    CardContent,
+    Typography,
+    Divider,
+    Switch,
+    Button,
+    Alert,
+    Chip,
+    FormControlLabel
+} from '@mui/material';
+import {
+    Palette as PaletteIcon,
+    Notifications as NotificationsIcon,
+    Backup as BackupIcon,
+    Info as InfoIcon,
+    ArrowBack as ArrowBackIcon,
+    Download as DownloadIcon,
+    Upload as UploadIcon,
+    Delete as DeleteIcon
+} from '@mui/icons-material';
+import { useThemeContext } from '../context/ThemeContext';
+import { ThemeToggleSwitch } from '../components/ThemeToggle';
 
 function Settings() {
     const [settings, setSettings] = useState({
-        theme: 'light',
-        language: 'ru',
         notifications: true,
-        autoSave: true
+        autoSave: true,
+        compactView: false
     });
 
+    const [showAlert, setShowAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+    const { themeMode } = useThemeContext();
+
     useEffect(() => {
-        // Загрузка настроек из localStorage
         const savedSettings = localStorage.getItem('appSettings');
         if (savedSettings) {
             setSettings(JSON.parse(savedSettings));
@@ -27,23 +53,35 @@ function Settings() {
         localStorage.setItem('appSettings', JSON.stringify(newSettings));
     };
 
-    const handleExportData = () => {
-        const technologies = localStorage.getItem('technologies');
-        const settings = localStorage.getItem('appSettings');
-        
-        const exportData = {
-            technologies: technologies ? JSON.parse(technologies) : [],
-            settings: settings ? JSON.parse(settings) : {},
-            exportDate: new Date().toISOString()
-        };
+    const showMessage = (message) => {
+        setAlertMessage(message);
+        setShowAlert(true);
+        setTimeout(() => setShowAlert(false), 3000);
+    };
 
-        const dataStr = JSON.stringify(exportData, null, 2);
-        const dataBlob = new Blob([dataStr], { type: 'application/json' });
-        
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(dataBlob);
-        link.download = `tech-tracker-backup-${new Date().toISOString().split('T')[0]}.json`;
-        link.click();
+    const handleExportData = () => {
+        try {
+            const technologies = localStorage.getItem('technologies');
+            const settings = localStorage.getItem('appSettings');
+            
+            const exportData = {
+                technologies: technologies ? JSON.parse(technologies) : [],
+                settings: settings ? JSON.parse(settings) : {},
+                exportDate: new Date().toISOString()
+            };
+
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `tech-tracker-backup-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            
+            showMessage('Данные успешно экспортированы!');
+        } catch (error) {
+            showMessage('Ошибка при экспорте данных');
+        }
     };
 
     const handleImportData = (event) => {
@@ -63,10 +101,10 @@ function Settings() {
                         setSettings(importData.settings);
                     }
                     
-                    alert('Данные успешно импортированы!');
-                    window.location.reload();
+                    showMessage('Данные успешно импортированы!');
+                    setTimeout(() => window.location.reload(), 1000);
                 } catch (error) {
-                    alert('Ошибка при импорте данных: неверный формат файла');
+                    showMessage('Ошибка при импорте данных');
                 }
             };
             reader.readAsText(file);
@@ -74,131 +112,210 @@ function Settings() {
     };
 
     const handleClearData = () => {
-        if (window.confirm('Вы уверены, что хотите удалить все данные? Это действие нельзя отменить.')) {
+        if (window.confirm('Вы уверены, что хотите удалить все данные?')) {
             localStorage.removeItem('technologies');
-            alert('Все данные удалены');
-            window.location.reload();
+            showMessage('Все данные удалены');
+            setTimeout(() => window.location.reload(), 1000);
         }
     };
 
     const handleResetSettings = () => {
-        if (window.confirm('Сбросить все настройки к значениям по умолчанию?')) {
+        if (window.confirm('Сбросить все настройки?')) {
             const defaultSettings = {
-                theme: 'light',
-                language: 'ru',
                 notifications: true,
-                autoSave: true
+                autoSave: true,
+                compactView: false
             };
             setSettings(defaultSettings);
             localStorage.setItem('appSettings', JSON.stringify(defaultSettings));
+            showMessage('Настройки сброшены');
         }
     };
+
+    // Статистика
+    const technologies = JSON.parse(localStorage.getItem('technologies') || '[]');
 
     return (
         <div className="page">
             <div className="page-header">
-                <h1>Настройки приложения</h1>
-                <Link to="/" className="btn">
-                    ← На главную
+                <Typography variant="h4" component="h1">
+                    Настройки
+                </Typography>
+                <Link to="/">
+                    <Button startIcon={<ArrowBackIcon />} variant="outlined">
+                        На главную
+                    </Button>
                 </Link>
             </div>
 
-            <div className="settings-container">
+            {showAlert && (
+                <Alert severity="info" sx={{ mb: 3 }}>
+                    {alertMessage}
+                </Alert>
+            )}
+
+            <Box sx={{ maxWidth: 800, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 3 }}>
+                {/* Статистика */}
+                <Card>
+                    <CardContent>
+                        <Typography variant="h6" gutterBottom>
+                            Статистика
+                        </Typography>
+                        <Divider sx={{ my: 2 }} />
+                        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                            <Chip label={`Всего: ${technologies.length}`} />
+                            <Chip 
+                                label={`Изучено: ${technologies.filter(t => t.status === 'completed').length}`} 
+                                color="success" 
+                                variant="outlined" 
+                            />
+                            <Chip 
+                                label={`В процессе: ${technologies.filter(t => t.status === 'in-progress').length}`} 
+                                color="warning" 
+                                variant="outlined" 
+                            />
+                        </Box>
+                    </CardContent>
+                </Card>
+
                 {/* Внешний вид */}
-                <div className="settings-section">
-                    <h3>Внешний вид</h3>
-                    <div className="setting-item">
-                        <label>Тема оформления:</label>
-                        <select 
-                            value={settings.theme}
-                            onChange={(e) => handleSettingChange('theme', e.target.value)}
-                        >
-                            <option value="light">Светлая</option>
-                            <option value="dark">Темная</option>
-                            <option value="auto">Системная</option>
-                        </select>
-                    </div>
-                    
-                    <div className="setting-item">
-                        <label>Язык:</label>
-                        <select 
-                            value={settings.language}
-                            onChange={(e) => handleSettingChange('language', e.target.value)}
-                        >
-                            <option value="ru">Русский</option>
-                            <option value="en">English</option>
-                        </select>
-                    </div>
-                </div>
+                <Card>
+                    <CardContent>
+                        <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <PaletteIcon />
+                            Внешний вид
+                        </Typography>
+                        <Divider sx={{ my: 2 }} />
+                        
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                            <ThemeToggleSwitch 
+                                label={`Темная тема (сейчас: ${themeMode === 'light' ? 'светлая' : 'темная'})`} 
+                            />
+                            
+                            <FormControlLabel
+                                control={
+                                    <Switch
+                                        checked={settings.compactView}
+                                        onChange={(e) => handleSettingChange('compactView', e.target.checked)}
+                                    />
+                                }
+                                label="Компактный вид"
+                            />
+                        </Box>
+                    </CardContent>
+                </Card>
 
                 {/* Уведомления */}
-                <div className="settings-section">
-                    <h3>Уведомления</h3>
-                    <div className="setting-item">
-                        <label>
-                            <input
-                                type="checkbox"
-                                checked={settings.notifications}
-                                onChange={(e) => handleSettingChange('notifications', e.target.checked)}
+                <Card>
+                    <CardContent>
+                        <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <NotificationsIcon />
+                            Уведомления
+                        </Typography>
+                        <Divider sx={{ my: 2 }} />
+                        
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                            <FormControlLabel
+                                control={
+                                    <Switch
+                                        checked={settings.notifications}
+                                        onChange={(e) => handleSettingChange('notifications', e.target.checked)}
+                                    />
+                                }
+                                label="Показывать уведомления"
                             />
-                            Включить уведомления
-                        </label>
-                    </div>
-                    
-                    <div className="setting-item">
-                        <label>
-                            <input
-                                type="checkbox"
-                                checked={settings.autoSave}
-                                onChange={(e) => handleSettingChange('autoSave', e.target.checked)}
+                            
+                            <FormControlLabel
+                                control={
+                                    <Switch
+                                        checked={settings.autoSave}
+                                        onChange={(e) => handleSettingChange('autoSave', e.target.checked)}
+                                    />
+                                }
+                                label="Автосохранение"
                             />
-                            Автосохранение
-                        </label>
-                    </div>
-                </div>
+                        </Box>
+                    </CardContent>
+                </Card>
 
                 {/* Управление данными */}
-                <div className="settings-section">
-                    <h3>Управление данными</h3>
-                    <div className="setting-actions">
-                        <button onClick={handleExportData} className="btn btn-primary">
-                            Экспорт данных
-                        </button>
+                <Card>
+                    <CardContent>
+                        <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <BackupIcon />
+                            Данные
+                        </Typography>
+                        <Divider sx={{ my: 2 }} />
                         
-                        <label className="btn btn-secondary">
-                            Импорт данных
-                            <input
-                                type="file"
-                                accept=".json"
-                                onChange={handleImportData}
-                                style={{ display: 'none' }}
-                            />
-                        </label>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                            <Button 
+                                variant="contained" 
+                                startIcon={<DownloadIcon />}
+                                onClick={handleExportData}
+                                fullWidth
+                            >
+                                Экспорт данных
+                            </Button>
+                            
+                            <Button 
+                                variant="outlined" 
+                                component="label"
+                                startIcon={<UploadIcon />}
+                                fullWidth
+                            >
+                                Импорт данных
+                                <input
+                                    type="file"
+                                    accept=".json"
+                                    onChange={handleImportData}
+                                    hidden
+                                />
+                            </Button>
+                            
+                            <Button 
+                                variant="outlined" 
+                                color="error"
+                                startIcon={<DeleteIcon />}
+                                onClick={handleClearData}
+                                fullWidth
+                            >
+                                Очистить все данные
+                            </Button>
+                            
+                            <Button 
+                                variant="outlined" 
+                                onClick={handleResetSettings}
+                                fullWidth
+                            >
+                                Сбросить настройки
+                            </Button>
+                        </Box>
+                    </CardContent>
+                </Card>
+
+                {/* Информация */}
+                <Card>
+                    <CardContent>
+                        <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <InfoIcon />
+                            О приложении
+                        </Typography>
+                        <Divider sx={{ my: 2 }} />
                         
-                        <button onClick={handleClearData} className="btn btn-danger">
-                            Очистить все данные
-                        </button>
-                    </div>
-                </div>
-
-                {/* Сброс настроек */}
-                <div className="settings-section">
-                    <h3>Сброс настроек</h3>
-                    <button onClick={handleResetSettings} className="btn btn-warning">
-                        Сбросить настройки по умолчанию
-                    </button>
-                </div>
-
-                {/* Информация о приложении */}
-                <div className="settings-section">
-                    <h3>О приложении</h3>
-                    <div className="app-info">
-                        <p><strong>Версия:</strong> 1.0.0</p>
-                        <p><strong>Разработчик:</strong> Трекер технологий</p>
-                        <p><strong>Дата сборки:</strong> {new Date().toLocaleDateString()}</p>
-                    </div>
-                </div>
-            </div>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                            <Typography variant="body2">
+                                <strong>Версия:</strong> 1.0.0
+                            </Typography>
+                            <Typography variant="body2">
+                                <strong>Технологий:</strong> {technologies.length}
+                            </Typography>
+                            <Typography variant="body2">
+                                <strong>Тема:</strong> {themeMode === 'light' ? 'Светлая' : 'Темная'}
+                            </Typography>
+                        </Box>
+                    </CardContent>
+                </Card>
+            </Box>
         </div>
     );
 }

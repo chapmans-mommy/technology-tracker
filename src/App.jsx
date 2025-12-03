@@ -17,6 +17,8 @@ import AddTechnology from './components/AddTechnology';
 import { NotificationProvider } from './context/NotificationContext';
 import NotificationSystem from './components/NotificationSystem';
 import { useNotifications } from './context/NotificationContext';
+import { ThemeProvider } from './context/ThemeContext';
+
 
 function AppContent() {
   const { 
@@ -346,9 +348,11 @@ function AppContent() {
 // Главный компонент, обернутый в провайдеры
 function App() {
   return (
+    <ThemeProvider>
       <NotificationProvider>
           <AppContent />
       </NotificationProvider>
+    </ThemeProvider>
   );
 }
 

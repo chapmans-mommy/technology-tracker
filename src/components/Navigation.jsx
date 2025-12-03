@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Navigation.css';
+import ThemeToggleButton from '../components/ThemeToggle';
 
 function Navigation() {
     const location = useLocation();
@@ -54,6 +55,7 @@ function Navigation() {
                     <Link to="/">
                         <h2>Трекер технологий</h2>
                     </Link>
+                    <ThemeToggleButton size="small" sx={{ ml: 2 }} />
                 </div>
 
                 {/* Кнопка прокрутки влево */}

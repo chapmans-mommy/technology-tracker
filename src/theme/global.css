@@ -1,0 +1,51 @@
+/* src/theme/global.css */
+/* CSS переменные для тем */
+
+:root {
+    /* Светлая тема по умолчанию */
+    --color-primary: #6366f1;
+    --color-secondary: #10b981;
+    --color-background: #f8fafc;
+    --color-surface: #ffffff;
+    --color-text: #1f2937;
+    --color-text-secondary: #6b7280;
+    --color-border: #e5e7eb;
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+    --color-error: #ef4444;
+    --color-info: #3b82f6;
+}
+
+.dark-theme {
+    /* Темная тема */
+    --color-primary: #818cf8;
+    --color-secondary: #34d399;
+    --color-background: #111827;
+    --color-surface: #1f2937;
+    --color-text: #f9fafb;
+    --color-text-secondary: #d1d5db;
+    --color-border: #374151;
+    --color-success: #34d399;
+    --color-warning: #fbbf24;
+    --color-error: #f87171;
+    --color-info: #60a5fa;
+}
+
+/* Применяем CSS переменные к элементам */
+body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Для кастомных компонентов, не использующих MUI */
+.custom-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+}
+
+.custom-button {
+    background-color: var(--color-primary);
+    color: white;
+}
