@@ -842,49 +842,387 @@ body.dark-theme {
   background-color: #1a1a1a !important;
   color: #ffffff !important;
 }
+/* ===== АДАПТИВНОСТЬ ===== */
 
-/* ===== ИСПРАВЛЕНИЯ ДЛЯ ТЕМНОЙ ТЕМЫ - ТОЛЬКО УКАЗАННЫЕ ПРОБЛЕМЫ ===== */
-
-/* 1. Дорожные карты (карточки технологий) на главной странице */
-body.dark-theme .technology-item {
-  background: #2d2d2d !important;
-  border: 1px solid #404040 !important;
+/* Мобильные устройства (до 768px) */
+@media (max-width: 768px) {
+  .App {
+    max-width: 100%;
+    padding: 10px;
+  }
+  
+  .app-header {
+    padding: 20px 15px;
+    margin-bottom: 20px;
+    border-radius: 0 0 15px 15px;
+  }
+  
+  .app-header h1 {
+    font-size: 1.8em;
+    margin-bottom: 8px;
+  }
+  
+  .app-header p {
+    font-size: 0.95em;
+  }
+  
+  .search-box {
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+    margin: 15px 0;
+  }
+  
+  .search-box input {
+    padding: 10px;
+    font-size: 0.95em;
+  }
+  
+  .search-box span {
+    text-align: center;
+    font-size: 0.9em;
+  }
+  
+  .filters {
+    padding: 15px;
+    margin: 15px 0;
+  }
+  
+  .filter-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  
+  .filter-buttons button {
+    padding: 8px 12px;
+    font-size: 0.9em;
+    min-height: 40px;
+  }
+  
+  .technologies-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-top: 15px;
+  }
+  
+  .technology-item {
+    padding: 15px;
+  }
+  
+  .page {
+    padding: 15px;
+  }
+  
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+  }
+  
+  .page-header h1 {
+    font-size: 1.5em;
+  }
+  
+  .stats-container {
+    padding: 20px 15px;
+  }
+  
+  .stats-overview {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .stat-card {
+    padding: 20px 15px;
+  }
+  
+  .stat-number {
+    font-size: 1.8em;
+  }
+  
+  .settings-container {
+    padding: 20px 15px;
+  }
+  
+  .setting-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .setting-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  .btn {
+    padding: 10px 16px;
+    font-size: 0.95em;
+  }
+  
+  /* Скрытие скроллбара на мобильных */
+  .nav-scroll-container {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  
+  .nav-scroll-container::-webkit-scrollbar {
+    display: none;
+  }
 }
 
-/* 2. Статусы на странице сроков */
-body.dark-theme .status-badge,
-body.dark-theme .deadline-status,
-body.dark-theme .status-chip,
-body.dark-theme [class*="status"],
-body.dark-theme [class*="Status"] {
-  background: #3d3d3d !important;
+/* Очень маленькие экраны (до 360px) */
+@media (max-width: 360px) {
+  html {
+    font-size: 15px;
+  }
+  
+  .filter-buttons {
+    grid-template-columns: 1fr;
+  }
+  
+  .app-header h1 {
+    font-size: 1.6em;
+  }
+  
+  .btn {
+    padding: 8px 12px;
+    font-size: 0.9em;
+  }
+  
+  .nav-menu a {
+    padding: 6px 10px;
+    font-size: 0.85em;
+  }
+}
+
+/* Планшеты (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .technologies-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .app-header h1 {
+    font-size: 2.2em;
+  }
+}
+
+/* ===== ФИКСИРОВАННАЯ НАВИГАЦИЯ ===== */
+
+.main-navigation {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Учитываем фиксированную навигацию в отступах контента */
+.App {
+  padding-top: 0;
+}
+
+/* Добавляем отступ для контента, чтобы он не скрывался под фиксированной навигацией */
+.page,
+.technologies-list,
+.search-box:first-of-type,
+.filters:first-of-type {
+  margin-top: 20px;
+}
+
+/* Для мобильных - меньший отступ */
+@media (max-width: 768px) {
+  .page,
+  .technologies-list,
+  .search-box:first-of-type,
+  .filters:first-of-type {
+    margin-top: 15px;
+  }
+}
+
+/* Безопасные области для iOS */
+@supports (padding: max(0px)) {
+  .main-navigation {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  body {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+/* ===== ФИКСИРОВАННАЯ НАВИГАЦИЯ - ИСПРАВЛЕНИЯ ===== */
+
+.main-navigation {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+/* Контейнер для скролла навигации */
+.nav-scroll-container {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px 15px;
+}
+
+/* Меню навигации */
+.nav-menu {
+  display: inline-flex;
+  gap: 10px;
+  min-width: min-content;
+  width: 100%;
+}
+
+/* Ссылки навигации */
+.nav-menu a {
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  display: inline-block;
+  min-width: fit-content;
+}
+
+/* Убираем дублирующие отступы */
+body {
+  padding-top: 0 !important;
+}
+
+/* Исправляем отступ для контента */
+.App {
+  padding-top: 0;
+}
+
+/* Отступ для первого контента после навигации */
+.app-header {
+  margin-top: 0;
+}
+
+/* ===== ИСПРАВЛЕНИЯ ДЛЯ МАЛЕНЬКИХ ЭКРАНОВ ===== */
+
+@media (max-width: 768px) {
+  /* Убеждаемся, что навигация видна */
+  .main-navigation {
+    height: auto;
+    min-height: 50px;
+    display: block;
+    position: sticky;
+  }
+  
+  .nav-scroll-container {
+    padding: 8px 10px;
+    margin: 0;
+    display: block;
+  }
+  
+  .nav-menu {
+    gap: 6px;
+    padding: 2px 0;
+  }
+  
+  .nav-menu a {
+    padding: 6px 12px;
+    font-size: 0.85em;
+    white-space: nowrap;
+  }
+  
+  /* Уменьшаем шапку на очень маленьких экранах */
+  @media (max-width: 360px) {
+    .nav-menu a {
+      padding: 5px 8px;
+      font-size: 0.8em;
+    }
+    
+    .nav-scroll-container {
+      padding: 6px 8px;
+    }
+  }
+  
+  /* Увеличиваем зону тапа для ссылок */
+  .nav-menu a {
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* ===== БЕЗОПАСНЫЕ ОБЛАСТИ ДЛЯ СОВРЕМЕННЫХ УСТРОЙСТВ ===== */
+@supports (padding: max(0px)) {
+  .main-navigation {
+    padding-left: max(15px, env(safe-area-inset-left));
+    padding-right: max(15px, env(safe-area-inset-right));
+    padding-top: max(0px, env(safe-area-inset-top));
+  }
+  
+  .nav-scroll-container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
+  /* Создаем безопасный отступ для контента под "челкой" iPhone */
+  body::before {
+    content: '';
+    display: block;
+    height: env(safe-area-inset-top);
+    width: 100%;
+    background: transparent;
+  }
+}
+
+/* ===== ВИЗУАЛЬНЫЕ ИСПРАВЛЕНИЯ ДЛЯ ТЕМНОЙ ТЕМЫ ===== */
+body.dark-theme .main-navigation {
+  background-color: #2d2d2d !important;
+  border-bottom-color: #404040 !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+body.dark-theme .nav-menu a {
   color: #ffffff !important;
-  border: 1px solid #505050 !important;
 }
 
-/* 3. Конкретные классы статусов */
-body.dark-theme .status-completed,
-body.dark-theme .status-in-progress,
-body.dark-theme .status-not-started {
-  background: #3d3d3d !important;
+body.dark-theme .nav-menu a:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-/* 4. Если статусы используют Material-UI Chip */
-body.dark-theme .MuiChip-root {
-  background: #3d3d3d !important;
-  color: #ffffff !important;
-  border: 1px solid #505050 !important;
+body.dark-theme .nav-menu a.active {
+  background-color: rgba(99, 102, 241, 0.2) !important;
+  color: #818cf8 !important;
 }
 
-/* 5. Если статусы в таблице на странице сроков */
-body.dark-theme table td:last-child,
-body.dark-theme .deadline-table td:nth-child(3),
-body.dark-theme .deadline-table td:nth-child(4) {
-  background: #3d3d3d !important;
+/* ===== ОБЕСПЕЧИВАЕМ ВИДИМОСТЬ НА ВСЕХ ЭКРАНАХ ===== */
+@media (max-height: 500px) {
+  .main-navigation {
+    position: sticky;
+  }
+  
+  .nav-scroll-container {
+    max-height: 50px;
+  }
 }
 
-/* 6. Для любых элементов с белым фоном в контейнерах сроков */
-body.dark-theme .deadlines-container *,
-body.dark-theme .deadline-card * {
-  background-color: transparent !important;
+/* Убираем возможные перекрытия */
+* {
+  box-sizing: border-box;
+}
+
+/* Убедимся, что ничего не скрывает навигацию */
+body > *:not(.main-navigation) {
+  position: relative;
+  z-index: 1;
+}
+
+.main-navigation {
+  z-index: 1000;
 }
